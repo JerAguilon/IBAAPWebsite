@@ -2,14 +2,49 @@
 <html lang="en">
 <head>
     <% include partials/page/head.ejs %>
+
+
+    <link type = "text/css" href= "cal-heatmap/cal-heatmap.css" rel="stylesheet"/>
+
+
+
 </head>
 <body>
 
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="cal-heatmap/cal-heatmap.min.js"></script>
+
 <!-- just creates the nav bar -->
-<div class="page-wrapper">
+<div class="page-wrapper" align ="center">
     <% include partials/page/navbar.ejs %>
+
     <div class="container" style="margin-top: 250px">
-        <table style="width:100%">
+
+        <div id = "cal-heatmap"></div>
+        <script type = "text/javascript">
+
+            var date = new Date();
+            console.log(date.getFullYear());
+
+            var startDate = date.getFullYear();
+
+            if (date.getMonth() - 3 < 1) {
+                startDate--;
+            }
+
+            var cal = new CalHeatMap();
+            cal.init({
+                subDomainTextFormat: "%d",
+                range:4,
+                domain: "month",
+                data: "datas.json",
+                cellSize:20,
+                start: new Date(startDate, date.getMonth() -3, date.getDate())
+            });
+        </script>
+
+
+        <!--<table style="width:100%">
             <tr>
 
                 <td align="center" style="vertical-align:bottom">
@@ -47,7 +82,7 @@
                 <td align="center">Reliever<p><img src="img/releiveUnfill.png"; style="width: 50px; height: 50px"></p></td>
 
             </tr>
-        </table>
+        </table>-->
 
     </div>
 
@@ -68,7 +103,6 @@
 <script src="startup/common-files/js/jquery.backgroundvideo.min.js"></script>
 <script src="startup/common-files/js/froogaloop.min.js"></script>
 <script src="startup/common-files/js/startup-kit.js"></script>
-
 
 </body>
 </html>
