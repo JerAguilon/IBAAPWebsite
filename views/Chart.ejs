@@ -24,27 +24,33 @@
         <script type = "text/javascript">
 
             var date = new Date();
-            console.log(date.getFullYear());
 
             var startDate = date.getFullYear();
 
-            if (date.getMonth() - 3 < 1) {
-                startDate--;
-            }
+            var dateData = {};
+
+            <% for (var i = 0; i < chart.dates.length; i++ ) { %>
+                dateData[<%=(chart.dates[i]/1000 + 86400).toString()%>] = <%=chart.incidences[i]%>;
+            <%  } %>
+
 
             var cal = new CalHeatMap();
             cal.init({
+                legend: [1,2,3],
+                legendColors: {min: "#7CFC00", max:"red", base:"#7CFC00"},
                 subDomainTextFormat: "%d",
                 range:4,
                 domain: "month",
-                data: "datas.json",
                 cellSize:20,
-                start: new Date(startDate, date.getMonth() -3, date.getDate())
+                start: new Date(startDate, date.getMonth() -3, date.getDate()),
+                data: dateData
             });
+
+
         </script>
 
 
-        <!--<table style="width:100%">
+        <table style="width:100%">
             <tr>
 
                 <td align="center" style="vertical-align:bottom">
@@ -82,7 +88,7 @@
                 <td align="center">Reliever<p><img src="img/releiveUnfill.png"; style="width: 50px; height: 50px"></p></td>
 
             </tr>
-        </table>-->
+        </table>
 
     </div>
 

@@ -27,22 +27,32 @@ router.get('/Chart', function (req, res, next) {
         var school = 0;
         var sleep = 0;
         var tired = 0;
+        var dates = []; //array of dates
+        var incidences = []; // number of incidences associated with the dates;
         for (var i = 0; i < calendarObject.length; i++) {
+            dates[i] = Date.parse(calendarObject[i].recordDate);
+            incidences[i] = 0;
 
 
             if (calendarObject[i].reliever) {
-                reliever = reliever + 1;
+                reliever++;
+                incidences[i]++;
             }
             if (calendarObject[i].school) {
-
-                school = school + 1;
+                school++;
+                incidences[i]++;
             }
             if (calendarObject[i].sleep) {
-                sleep = sleep + 1;
+                sleep++;
+                incidences[i]++;
             }
             if (calendarObject[i].tired) {
-                tired = tired + 1;
+                tired++;
+                incidences[i]++;
+
             }
+
+
         }
 
         res.render('Chart', {
@@ -50,7 +60,9 @@ router.get('/Chart', function (req, res, next) {
                 reliever: reliever,
                 school: school,
                 sleep: sleep,
-                tired: tired
+                tired: tired,
+                dates: dates,
+                incidences: incidences
             }
         });
     });
