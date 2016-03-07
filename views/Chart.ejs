@@ -5,7 +5,7 @@
 
 
     <link type = "text/css" href= "cal-heatmap/cal-heatmap.css" rel="stylesheet"/>
-
+    <link type = "text/css" href= "cal-heatmap/chartStyle.css" rel="stylesheet"/>
 
 
 </head>
@@ -18,7 +18,7 @@
 <div class="page-wrapper" align ="center">
     <% include partials/page/navbar.ejs %>
 
-    <div class="container" style="margin-top: 250px">
+    <div class="container" style="margin-top: 20px">
 
         <div id = "cal-heatmap"></div>
         <script type = "text/javascript">
@@ -35,22 +35,27 @@
 
 
             var cal = new CalHeatMap();
+
             cal.init({
+                displayLegend: false,
                 legend: [1,2,3],
                 legendColors: {min: "#7CFC00", max:"red", base:"#7CFC00"},
                 subDomainTextFormat: "%d",
                 range:4,
                 domain: "month",
                 cellSize:20,
-                start: new Date(startDate, date.getMonth() -3, date.getDate()),
-                data: dateData
+                subDomain: "x_day",
+                start: new Date(startDate, date.getMonth() - 3, date.getDate()),
+                data: dateData,
+                verticalOrientation: true,
+                label: {position : "top"},
             });
 
 
         </script>
 
 
-        <table style="width:100%">
+        <table style="width:50%">
             <tr>
 
                 <td align="center" style="vertical-align:bottom">

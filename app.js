@@ -31,6 +31,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+
 app.use(expressSession(
     {
       secret: 'getting good money',
@@ -43,6 +44,26 @@ app.use(expressSession(
 ));
 
 
+//BELOW IS TEST CODE
+/*var Schema = mongoose.Schema;
+var userSchema = new Schema({
+    name: String,
+
+});
+var User = mongoose.model('users', userSchema);
+
+var jeremy = new User({
+  name: 'Jeremy'
+});
+
+jeremy.save(function (err, data) {
+if (err) console.log(err);
+else console.log('Saved : ', data );
+});
+
+
+User.find({}, function(err, docs) {console.log(docs);})
+*/
 
 app.use('/', routes);
 app.use('/users', users);

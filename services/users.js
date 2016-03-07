@@ -38,42 +38,90 @@ exports.getUserDetailList = function (input, next) {
 };
 exports.addUser = function (input, next) {
 
+    //Hash the password
+    var salt = bcrypt.genSaltSync(10);
+    var hash = bcrypt.hashSync(input.password, salt);
 
-    bcrypt.hash(input.password, 10, function (err, hash) {
+
+    var newUser = new User({
+        username : input.username,
+        password : hash
+    })
+
+    newUser.save(function (err) {
         if (err) {
-            return next(err);
+            console.log("User failed to save");
+            console.log(err);
+            return err;
+        } else {
+            console.log("User created");
         }
+    })
 
-        input.password = hash;
-        var newUser = new User({
-            username: input.username,
-            password: input.password
-        });
 
-        newUser.save(function (err) {
+
+/*        bcrypt.hash(input.password, 10, function (err, hash) {
             if (err) {
-                return next(err);
+                console.log("Error on hash of password");
             }
 
-            var newUserDetail = new UserDetail({
-                _userDetail: newUser._id,
-                interest: input.interest,
-                accountType: input.accountType,
-                profilePicture: "default",
+            var newUser = new User({
+                username : input.username,
+                password: hash
             });
 
-            newUserDetail.save(function (err) {
+            newUser.save(function(err) {
                 if (err) {
-                    return next(err);
+                    console.log("oops");
                 }
-                else {
-                    next(null);
-                }
-
+                console.log("User created");
             });
 
-        });
-    });
+
+        });*/
+
+
+
+    // bcrypt.hash(input.password, 10, function (err, hash) {
+    //     if (err) {
+    //         return next(err);
+    //     }
+
+    //     input.password = hash;
+    //     var newUser = new User({
+    //         username: input.username,
+    //         password: input.password
+    //     });
+    //     console.log("ayyy");
+    //     console.log(newUser);
+
+    //     newUser.save(function (err) {
+    //         if (err) {
+    //             console.log("error on adding user");
+    //             return next(err);
+    //         }
+
+    //         console.log("'User created");
+
+    //         var newUserDetail = new UserDetail({
+    //             _userDetail: newUser._id,
+    //             interest: input.interest,
+    //             accountType: input.accountType,
+    //             profilePicture: "default",
+    //         });
+    //         console.log("Saving new user");
+    //         newUserDetail.save(function (err) {
+    //             if (err) {
+    //                 return next(err);
+    //             }
+    //             else {
+    //                 next(null);
+    //             }
+
+    //         });
+
+    //     });
+    // });
 };
 
 exports.deleteUser = function (input, res, next) {

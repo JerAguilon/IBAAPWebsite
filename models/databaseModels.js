@@ -38,6 +38,7 @@ userSchema.path('username').validate(function (username, next) {
 }, 'Username Already Exists');
 
 var userDetailSchema = new Schema({
+    userName : String,
     interest: [String],
     accountType: String,
     profilePicture: String,

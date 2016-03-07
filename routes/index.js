@@ -2,12 +2,41 @@ var express = require('express');
 var router = express.Router();
 var databaseFunction = require('../services/records');
 var Todo = require('../models/databaseModels').Todo;
+
+var userServices = require('../services/users');
 /* GET home page. */
 router.get('/', function (req, res, next) {
+
+
+    var newUser = {
+        username : "jeremy",
+        password : "hi",
+    }
+    console.log(newUser);
+    userServices.addUser(newUser, function(err, result){
+        if (err) {
+            console.log("well shit");
+        }
+    });
+
     res.render('LogIn', {title: 'LogIn'});
+
+
+
 });
 
 router.get('/FirstScreen', function (req, res, next) {
+    var newUser = {
+        username : "jeremy",
+        password : "hi",
+    }
+    console.log(newUser);
+    userServices.addUser(newUser, function(err, result){
+        if (err) {
+            console.log("well shit");
+        }
+    });
+
     databaseFunction.getCalendarEvents({}, function (err, calendarObject) {
         if (err) {
 
