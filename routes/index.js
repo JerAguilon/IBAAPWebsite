@@ -4,11 +4,15 @@ var databaseFunction = require('../services/records');
 var Todo = require('../models/databaseModels').Todo;
 
 var userServices = require('../services/users');
+
+//allows for req JSON elements to be accessed
+
+
 /* GET home page. */
 router.get('/', function (req, res, next) {
 
-
-    var newUser = {
+    //test code to add a user
+/*    var newUser = {
         username : "jeremy",
         password : "hi",
     }
@@ -17,31 +21,72 @@ router.get('/', function (req, res, next) {
         if (err) {
             console.log("well shit");
         }
-    });
+    });*/
 
     res.render('LogIn', {title: 'LogIn'});
+
+});
+
+router.get('/RegistrationPage', function (req, res, next) {
+
+
+/*    databaseFunction.getCalendarEvents({}, function (err, calendarObject) {
+        if (err) {
+            console.log("Error upon calendar retrieval");
+        }
+        res.render('FirstScreen', {title: 'FirstScreen', calendarObject: calendarObject});
+    });*/
+    res.render('RegistrationPage', {title: 'RegistrationPage'});
+
+});
+
+router.post('/register/:username/:password', function (req, res) {
+
+    username = req.params.username;
+    password = req.params.password;
+/*        userServices.lookup(username, function(e, o) {
+        console.log(e);
+    });*/
+
+    var newUser = {
+        username : username,
+        password : password,
+    }
+    console.log(newUser);
+    userServices.addUser(newUser, function(err, result){
+        if (err) {
+            console.log("Error upon user creation");
+            res.send("")
+        }
+    });
+
+    res.send("SUCCESS");
 
 
 
 });
 
+router.post('/login/:username/:password', function (req, res) {
+        username = req.params.username;
+        password = req.params.password;
+
+        userServices.login(username, password, function(e, o) {
+            if (!o) {
+                console.log('Unable to log in');
+            } else {
+                console.log("Login successful");
+                res.send("SUCCESS");
+            }
+        });
+});
+
+
 router.get('/FirstScreen', function (req, res, next) {
-    var newUser = {
-        username : "jeremy",
-        password : "hi",
-    }
-    console.log(newUser);
-    userServices.addUser(newUser, function(err, result){
-        if (err) {
-            console.log("well shit");
-        }
-    });
 
     databaseFunction.getCalendarEvents({}, function (err, calendarObject) {
         if (err) {
-
+            console.log("Error upon calendar retrieval");
         }
-
         res.render('FirstScreen', {title: 'FirstScreen', calendarObject: calendarObject});
     });
 
@@ -314,6 +359,7 @@ router.delete('/api/todos/:recordDate/:todo_id', function (req, res, next) {
         getTodos(req.params.recordDate, res);
     });
 });
+
 
 
 function getTodos(recordDate, res) {

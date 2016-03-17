@@ -1,7 +1,7 @@
 var User = require('../models/databaseModels').User;
 var UserDetail = require('../models/databaseModels').UserDetail;
 
-var bcrypt = require('bcrypt-nodejs');
+var bcrypt = require('bcrypt');
 var Bing = require('node-bing-api')({accKey: "jgk2Sf3SABeYuCaIENSy+r6mIOnCVRP6qM7etOxMbns"});
 
 exports.findUser = function (input, next) {
@@ -18,6 +18,34 @@ exports.getSearch = function (input, next) {
         next(error, body.d);
     });
 };
+
+exports.login = function (user, pass, callback) {
+    User.findOne({username : user}, function (e, o) {
+        if (o == null) {
+            callback('user not found');
+        } else {
+            bcrypt.compare(pass, o.password, function (err, isMatch) {
+                if (err) return callback(err);
+                console.log(isMatch);
+                callback(null, isMatch);
+            });
+
+        }
+    });
+}
+
+
+
+exports.lookup = function(user, callback) {
+    //callback('userfound');
+    User.findOne({username:user}, function(e, o) {
+        if (o == null){
+            callback('user-not-found');
+        }   else{
+            callback('user found');
+        }
+    });
+}
 
 exports.findUserDetailById = function (input, next) {
     UserDetail.findOne({_userDetail: input}).populate('_userDetail').exec(function (err, object) {
@@ -39,24 +67,28 @@ exports.getUserDetailList = function (input, next) {
 exports.addUser = function (input, next) {
 
     //Hash the password
-    var salt = bcrypt.genSaltSync(10);
-    var hash = bcrypt.hashSync(input.password, salt);
+    bcrypt.genSalt(10, function(err, salt) {
+        if (err) return next(err);
+
+        bcrypt.hash(input.password, salt, function(err, hash) {
+            if (err) return next(err);
+
+            var newUser = new User({
+                username : input.username,
+                password : hash
+            })
 
 
-    var newUser = new User({
-        username : input.username,
-        password : hash
-    })
+            newUser.save(function (err) {
+                if (err)
+                    return err;
+            })
 
-    newUser.save(function (err) {
-        if (err) {
-            console.log("User failed to save");
-            console.log(err);
-            return err;
-        } else {
-            console.log("User created");
-        }
-    })
+            next();
+        });
+    });
+
+
 
 
 

@@ -1,6 +1,6 @@
 .Title {
 	text-align: center;
-	
+
 	margin-top: 72px;
 
 }
@@ -40,4 +40,8 @@
 	font-size: 24px;
 	outline:none;
 	border:none;
+}
+
+#loginForm * {
+	margin: 2px;
 }

@@ -53,7 +53,7 @@ var userSchema = new Schema({
 var User = mongoose.model('users', userSchema);
 
 var jeremy = new User({
-  name: 'Jeremy'
+  name: 'Jeremy'rite
 });
 
 jeremy.save(function (err, data) {
