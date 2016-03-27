@@ -38,13 +38,16 @@ exports.login = function (user, pass, callback) {
 
 exports.lookup = function(user, callback) {
     //callback('userfound');
+    var found = false;
     User.findOne({username:user}, function(e, o) {
-        if (o == null){
-            callback('user-not-found');
-        }   else{
-            callback('user found');
+        if (o != null){
+            found = true;
         }
     });
+
+    if (found) {
+        callback('user found');
+    }
 }
 
 exports.findUserDetailById = function (input, next) {

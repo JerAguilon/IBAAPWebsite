@@ -44,23 +44,31 @@ router.post('/register/:username/:password', function (req, res) {
 
     username = req.params.username;
     password = req.params.password;
-/*        userServices.lookup(username, function(e, o) {
-        console.log(e);
-    });*/
 
-    var newUser = {
-        username : username,
-        password : password,
-    }
-    console.log(newUser);
-    userServices.addUser(newUser, function(err, result){
-        if (err) {
-            console.log("Error upon user creation");
-            res.send("")
+    var shouldAdd = true;
+    userServices.lookup(username, function(e, o) {
+        if (e == 'user found') {
+            res.send("user exists");
+        } else {
+            var newUser = {
+                username : username,
+                password : password,
+            }
+            console.log(newUser);
+
+            userServices.lookup(username)
+
+            userServices.addUser(newUser, function(err, result){
+                if (err) {
+                    console.log("Error upon user creation");
+                    res.send("")
+                }
+            });
+
+            res.send("SUCCESS");
         }
     });
 
-    res.send("SUCCESS");
 
 
 
