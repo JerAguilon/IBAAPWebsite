@@ -3,6 +3,7 @@ var Todo = require('../models/databaseModels').Todo;
 exports.addRecord = function (input, next) {
 
     var newRecord = new Record({
+        user : input.user,
         school: input.school,
         sleep: input.sleep,
         tired: input.tired,

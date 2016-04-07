@@ -15,6 +15,7 @@ var todoSchema = new Schema({
 });
 
 var recordSchema = new Schema({
+    user: String,
     school: Boolean,
     sleep: Boolean,
     tired: Boolean,

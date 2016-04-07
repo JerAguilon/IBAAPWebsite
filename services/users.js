@@ -37,17 +37,14 @@ exports.login = function (user, pass, callback) {
 
 
 exports.lookup = function(user, callback) {
-    //callback('userfound');
     var found = false;
-    User.findOne({username:user}, function(e, o) {
-        if (o != null){
-            found = true;
+    User.findOne({username : user}, function (e, o) {
+        if (o != null) {
+            callback(null, 'user found');
+        } else {
+            if (typeof callback == "function") callback('user not found');
         }
     });
-
-    if (found) {
-        callback('user found');
-    }
 }
 
 exports.findUserDetailById = function (input, next) {

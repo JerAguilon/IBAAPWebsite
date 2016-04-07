@@ -1,10 +1,11 @@
+pathname = window.location.pathname;
+user = pathname.split("/")[2];
 $(document).ready(function () {
 
 
     $("#pen").click(function (e) {
 
         var today = $(".fc-clicked").length == 0?   $(".fc-today") : $(".fc-clicked");
-
         var schoolIcon = $("<div class='schoolIcon'></div>");
         var sleepIcon = $("<div class='sleepIcon'></div>");
         var tiredIcon = $("<div class='tiredIcon'></div>");
@@ -12,14 +13,16 @@ $(document).ready(function () {
 
 
         if (today.find(".schoolIcon").length == 0) {
-            $("#pen").attr('src', 'img/schoolFill.png');
+            alert(user);
+            $("#pen").attr('src', '/img/schoolFill.png');
             today.append(schoolIcon);
-            $.post("/updatePen/true/" + today.data("date"));
+            //$.post("/updatePen/true/" + today.data("date"));
+            $.post("/updatePen/" + "jer" + "/true/" + today.data("date"));
 
         } else {
-            $("#pen").attr('src', 'img/schoolUnfill.png');
+            $("#pen").attr('src', '/img/schoolUnfill.png');
             today.find(".schoolIcon").remove();
-            $.post("/updatePen/false/" + today.data("date"));
+            $.post("/updatePen/" + "jer" + "/false/" + today.data("date"));
 
         }
     });
@@ -33,12 +36,12 @@ $(document).ready(function () {
         var tiredIcon = $("<div class='tiredIcon'></div>");
         var relieverIcon = $("<div class='relieverIcon'></div>");
         if (today.find(".sleepIcon").length == 0) {
-            $("#sleep").attr('src', 'img/sleepFill.png');
+            $("#sleep").attr('src', '/img/sleepFill.png');
             today.append(sleepIcon);
             $.post("/updateSleep/true/" + today.data("date"));
 
         } else {
-            $("#sleep").attr('src', 'img/sleepUnfill.png');
+            $("#sleep").attr('src', '/img/sleepUnfill.png');
             today.find(".sleepIcon").remove();
             $.post("/updateSleep/false/" + today.data("date"));
         }
@@ -53,11 +56,11 @@ $(document).ready(function () {
         var tiredIcon = $("<div class='tiredIcon'></div>");
         var relieverIcon = $("<div class='relieverIcon'></div>");
         if (today.find(".tiredIcon").length == 0) {
-            $("#tired").attr('src', 'img/limitFill.png');
+            $("#tired").attr('src', '/img/limitFill.png');
             today.append(tiredIcon);
             $.post("/updateTired/true/" + today.data("date"));
         } else {
-            $("#tired").attr('src', 'img/limitUnfill.png');
+            $("#tired").attr('src', '/img/limitUnfill.png');
             today.find(".tiredIcon").remove();
             $.post("/updateTired/false/" + today.data("date"));
         }
@@ -72,11 +75,11 @@ $(document).ready(function () {
         var tiredIcon = $("<div class='tiredIcon'></div>");
         var relieverIcon = $("<div class='relieverIcon'></div>");
         if (today.find(".relieverIcon").length == 0) {
-            $("#reliever").attr('src', 'img/releiveFill.png');
+            $("#reliever").attr('src', '/img/releiveFill.png');
             today.append(relieverIcon);
             $.post("/updateReliever/true/" + today.data("date"));
         } else {
-            $("#reliever").attr('src', 'img/releiveUnfill.png');
+            $("#reliever").attr('src', '/img/releiveUnfill.png');
             today.find(".relieverIcon").remove();
             $.post("/updateReliever/false/" + today.data("date"));
         }

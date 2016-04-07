@@ -41,15 +41,14 @@ router.get('/RegistrationPage', function (req, res, next) {
 });
 
 router.post('/register/:username/:password', function (req, res) {
-
     username = req.params.username;
     password = req.params.password;
+    console.log("IN METHOD");
 
-    var shouldAdd = true;
     userServices.lookup(username, function(e, o) {
-        if (e == 'user found') {
-            res.send("user exists");
-        } else {
+        console.log("O:" + o);
+        if (!o) {
+            console.log("User being created");
             var newUser = {
                 username : username,
                 password : password,
@@ -66,6 +65,10 @@ router.post('/register/:username/:password', function (req, res) {
             });
 
             res.send("SUCCESS");
+
+        } else {
+            console.log("User found");
+            res.send("user exists");
         }
     });
 
@@ -88,6 +91,17 @@ router.post('/login/:username/:password', function (req, res) {
         });
 });
 
+
+router.get('/FirstScreen/:username', function (req, res, next) {
+    username = req.params.username;
+    databaseFunction.getCalendarEvents({}, function (err, calendarObject) {
+        if (err) {
+            console.log("Error upon calendar retrieval");
+        }
+        res.render('FirstScreen', {title: 'FirstScreen', calendarObject: calendarObject});
+    });
+
+});
 
 router.get('/FirstScreen', function (req, res, next) {
 
@@ -179,7 +193,7 @@ router.get('/SendPlan', function (req, res, next) {
     res.render('SendPlan', {title: 'SendPlan'});
 });
 
-router.post('/updatePen/:pen/:recordDate', function (req, res, next) {
+/*router.post('/updatePen/:pen/:recordDate', function (req, res, next) {
     var recordInput = {
         recordDate: req.params.recordDate
     };
@@ -189,6 +203,49 @@ router.post('/updatePen/:pen/:recordDate', function (req, res, next) {
         }
         if (recordObject == null) {
             var newRecord = {
+
+                school: true,
+                sleep: false,
+                tired: false,
+                reliever: false,
+                recordDate: req.params.recordDate
+            };
+            databaseFunction.addRecord(newRecord, function (err, result) {
+                if (err) {
+                    return res.send(err);
+                } else {
+                    res.end();
+                }
+            });
+        } else {
+            var updateInput = {
+                recordDate: req.params.recordDate,
+                school: req.params.pen
+            };
+            databaseFunction.updateSchoolRecord(updateInput, function (err, object) {
+                if (err) {
+                    return res.send(err);
+                }
+                res.end();
+            });
+        }
+    });
+
+});*/
+
+router.post('/updatePen/:username/:pen/:recordDate/', function (req, res, next) {
+    var recordInput = {
+        //may need to add user here
+        recordDate: req.params.recordDate
+    };
+    databaseFunction.findRecord(recordInput, function (err, recordObject) {
+        if (err) {
+            return res.send(err);
+        }
+        if (recordObject == null) {
+            console.log("Username: " + req.params.username);
+            var newRecord = {
+                user: req.params.username,
                 school: true,
                 sleep: false,
                 tired: false,
@@ -217,6 +274,7 @@ router.post('/updatePen/:pen/:recordDate', function (req, res, next) {
     });
 
 });
+
 router.post('/updateSleep/:sleep/:recordDate', function (req, res, next) {
     var recordInput = {
         recordDate: req.params.recordDate

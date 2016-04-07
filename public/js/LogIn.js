@@ -9,7 +9,7 @@ $(document).ready(function() {
         $.post('/login/' + user + '/' + pass, function (res) {
             if (res == 'SUCCESS') {
                 alert("Welcome! Feel free to log in now.")
-                window.location = "/FirstScreen";
+                window.location = "/FirstScreen/" + user;
             } else {
                 window.location = "/RegistrationPage";
                 alert("User already exists.");
