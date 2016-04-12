@@ -13,7 +13,7 @@ exports.addRecord = function (input, next) {
 
     newRecord.save(function (err) {
         if (err) {
-            return next(err);
+            next(err);
         }
         else {
             next(null);
@@ -89,6 +89,7 @@ exports.getCalendarEvents = function (input, next) {
             results = [];
             for (var i = 0; i < recordObject.length; i++) {
                 results.push({
+                    user : recordObject[i].user,
                     recordDate: recordObject[i].recordDate,
                     reliever: recordObject[i].reliever,
                     tired: recordObject[i].tired,

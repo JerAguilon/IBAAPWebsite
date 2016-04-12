@@ -102,7 +102,7 @@ router.get('/FirstScreen/:username', function (req, res, next) {
     });
 
 });
-
+/*
 router.get('/FirstScreen', function (req, res, next) {
 
     databaseFunction.getCalendarEvents({}, function (err, calendarObject) {
@@ -112,7 +112,61 @@ router.get('/FirstScreen', function (req, res, next) {
         res.render('FirstScreen', {title: 'FirstScreen', calendarObject: calendarObject});
     });
 
+});*/
+
+router.get('/Chart/:username', function (req, res, next) {
+    databaseFunction.getCalendarEvents({}, function (err, calendarObject) {
+        if (err) {
+
+        }
+        var reliever = 0;
+        var school = 0;
+        var sleep = 0;
+        var tired = 0;
+        var dates = []; //array of dates
+        var incidences = []; // number of incidences associated with the dates;
+
+
+        for (var i = 0; i < calendarObject.length; i++) {
+            dates[i] = Date.parse(calendarObject[i].recordDate);
+            incidences[i] = 0;
+            if (calendarObject[i].user == req.params.username) {
+                if (calendarObject[i].reliever) {
+                    reliever++;
+                    incidences[i]++;
+                }
+                if (calendarObject[i].school) {
+                    school++;
+                    incidences[i]++;
+                }
+                if (calendarObject[i].sleep) {
+                    sleep++;
+                    incidences[i]++;
+                }
+                if (calendarObject[i].tired) {
+                    tired++;
+                    incidences[i]++;
+
+                }
+            }
+
+
+
+        }
+
+        res.render('Chart', {
+            title: 'Chart', chart: {
+                reliever: reliever,
+                school: school,
+                sleep: sleep,
+                tired: tired,
+                dates: dates,
+                incidences: incidences
+            }
+        });
+    });
 });
+
 
 router.get('/Chart', function (req, res, next) {
     databaseFunction.getCalendarEvents({}, function (err, calendarObject) {
@@ -128,7 +182,6 @@ router.get('/Chart', function (req, res, next) {
         for (var i = 0; i < calendarObject.length; i++) {
             dates[i] = Date.parse(calendarObject[i].recordDate);
             incidences[i] = 0;
-
 
             if (calendarObject[i].reliever) {
                 reliever++;
@@ -275,7 +328,7 @@ router.post('/updatePen/:username/:pen/:recordDate/', function (req, res, next) 
 
 });
 
-router.post('/updateSleep/:sleep/:recordDate', function (req, res, next) {
+/*router.post('/updateSleep/:sleep/:recordDate', function (req, res, next) {
     var recordInput = {
         recordDate: req.params.recordDate
     };
@@ -311,8 +364,9 @@ router.post('/updateSleep/:sleep/:recordDate', function (req, res, next) {
             });
         }
     });
-});
-router.post('/updateTired/:tired/:recordDate', function (req, res, next) {
+});*/
+
+router.post('/updateSleep/:username/:sleep/:recordDate', function (req, res, next) {
     var recordInput = {
         recordDate: req.params.recordDate
     };
@@ -322,6 +376,46 @@ router.post('/updateTired/:tired/:recordDate', function (req, res, next) {
         }
         if (recordObject == null) {
             var newRecord = {
+                user: req.params.username,
+                school: false,
+                sleep: true,
+                tired: false,
+                reliever: false,
+                recordDate: req.params.recordDate
+            };
+            databaseFunction.addRecord(newRecord, function (err, result) {
+                if (err) {
+                    return res.send(err);
+                } else {
+                    res.end();
+                }
+            });
+        } else {
+            var updateInput = {
+                recordDate: req.params.recordDate,
+                sleep: req.params.sleep
+            };
+            databaseFunction.updateSleepRecord(updateInput, function (err, object) {
+                if (err) {
+                    return res.send(err);
+                }
+                res.end();
+            });
+        }
+    });
+});
+
+router.post('/updateTired/:username/:tired/:recordDate', function (req, res, next) {
+    var recordInput = {
+        recordDate: req.params.recordDate
+    };
+    databaseFunction.findRecord(recordInput, function (err, recordObject) {
+        if (err) {
+            return res.send(err);
+        }
+        if (recordObject == null) {
+            var newRecord = {
+                user: req.params.username,
                 school: false,
                 sleep: false,
                 tired: true,
@@ -349,7 +443,7 @@ router.post('/updateTired/:tired/:recordDate', function (req, res, next) {
         }
     });
 });
-router.post('/updateReliever/:reliever/:recordDate', function (req, res, next) {
+router.post('/updateReliever/:username/:reliever/:recordDate', function (req, res, next) {
     var recordInput = {
         recordDate: req.params.recordDate
     };
@@ -359,6 +453,7 @@ router.post('/updateReliever/:reliever/:recordDate', function (req, res, next) {
         }
         if (recordObject == null) {
             var newRecord = {
+                user: req.params.username,
                 school: false,
                 sleep: false,
                 tired: false,

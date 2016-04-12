@@ -1,5 +1,6 @@
 pathname = window.location.pathname;
 user = pathname.split("/")[2];
+
 $(document).ready(function () {
 
 
@@ -17,12 +18,12 @@ $(document).ready(function () {
             $("#pen").attr('src', '/img/schoolFill.png');
             today.append(schoolIcon);
             //$.post("/updatePen/true/" + today.data("date"));
-            $.post("/updatePen/" + "jer" + "/true/" + today.data("date"));
+            $.post("/updatePen/" + user + "/true/" + today.data("date"));
 
         } else {
             $("#pen").attr('src', '/img/schoolUnfill.png');
             today.find(".schoolIcon").remove();
-            $.post("/updatePen/" + "jer" + "/false/" + today.data("date"));
+            $.post("/updatePen/" + user + "/false/" + today.data("date"));
 
         }
     });
@@ -38,12 +39,12 @@ $(document).ready(function () {
         if (today.find(".sleepIcon").length == 0) {
             $("#sleep").attr('src', '/img/sleepFill.png');
             today.append(sleepIcon);
-            $.post("/updateSleep/true/" + today.data("date"));
+            $.post("/updateSleep/" + user + "/true/" + today.data("date"));
 
         } else {
             $("#sleep").attr('src', '/img/sleepUnfill.png');
             today.find(".sleepIcon").remove();
-            $.post("/updateSleep/false/" + today.data("date"));
+            $.post("/updateSleep" + user + "/false/" + today.data("date"));
         }
     });
 
@@ -58,11 +59,11 @@ $(document).ready(function () {
         if (today.find(".tiredIcon").length == 0) {
             $("#tired").attr('src', '/img/limitFill.png');
             today.append(tiredIcon);
-            $.post("/updateTired/true/" + today.data("date"));
+            $.post("/updateTired/" + user + "/true/" + today.data("date"));
         } else {
             $("#tired").attr('src', '/img/limitUnfill.png');
             today.find(".tiredIcon").remove();
-            $.post("/updateTired/false/" + today.data("date"));
+            $.post("/updateTired/" + user + "/false/" + today.data("date"));
         }
     });
 
@@ -77,11 +78,11 @@ $(document).ready(function () {
         if (today.find(".relieverIcon").length == 0) {
             $("#reliever").attr('src', '/img/releiveFill.png');
             today.append(relieverIcon);
-            $.post("/updateReliever/true/" + today.data("date"));
+            $.post("/updateReliever/" + user + "/true/" + today.data("date"));
         } else {
             $("#reliever").attr('src', '/img/releiveUnfill.png');
             today.find(".relieverIcon").remove();
-            $.post("/updateReliever/false/" + today.data("date"));
+            $.post("/updateReliever/" + user + "/false/" + today.data("date"));
         }
 
     });

@@ -24,6 +24,61 @@ var recordSchema = new Schema({
     created: {type: Date, default: Date.now}
 });
 
+var planSchema = new Schema({
+    user: String,
+    green : {
+        flovent : {
+            interval : Number,
+            dosage : Number
+        },
+
+        singulair : {
+            interval : Number,
+            dosage : Number
+        },
+
+        albuterol : {
+            interval : Number,
+            dosage : Number
+        }
+    },
+
+    yellow : {
+        flovent : {
+            interval : Number,
+            dosage : Number
+        },
+
+        singulair : {
+            interval : Number,
+            dosage : Number
+        },
+
+        albuterol : {
+            interval : Number,
+            dosage : Number
+        }
+    },
+
+    red : {
+        flovent : {
+            interval : Number,
+            dosage : Number
+        },
+
+        singulair : {
+            interval : Number,
+            dosage : Number
+        },
+
+        albuterol : {
+            interval : Number,
+            dosage : Number
+        }
+    }
+
+});
+
 
 userSchema.path('username').validate(function (username, next) {
     User.findOne({username: username}, function (err, user) {
@@ -51,10 +106,12 @@ var User = mongoose.model('User', userSchema);
 var Todo = mongoose.model('Todo', todoSchema);
 var Record = mongoose.model('Record', recordSchema);
 var UserDetail = mongoose.model('UserDetail', userDetailSchema);
+var Plan = mongoose.model('Plan', planSchema);
 
 module.exports = {
-    User: User,
-    UserDetail: UserDetail,
-    Record: Record,
-    Todo: Todo
+    User : User,
+    UserDetail : UserDetail,
+    Record : Record,
+    Todo : Todo,
+    Plan : Plan
 };
