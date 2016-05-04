@@ -12,8 +12,6 @@
 
         $(document).ready(function () {
 
-
-            $("#usernameHolder").text(user);
             $("#calendar").fullCalendar({
 
                 dayClick: function (date, jsEvent, view) {
@@ -56,27 +54,28 @@
                     $(".fc-day").each(function () {
                         var plusIcon = document.createElement("div");
                         plusIcon.className = "plusIcon";
-                        <% for(var i = 0; i < calendarObject.length; i++) { %>
-                        if ($(this).data("date") == '<%= calendarObject[i].recordDate%>') {
+                        <% for(var i = 0; i < userInfo.length; i++) { %>
+
+                        if ($(this).data("date") == '<%= userInfo[i].recordDate%>') {
                             var schoolIcon = $("<div class='schoolIcon'></div>");
                             var sleepIcon = $("<div class='sleepIcon'></div>");
                             var tiredIcon = $("<div class='tiredIcon'></div>");
                             var relieverIcon = $("<div class='relieverIcon'></div>");
                             var noteIcon = $("<div class='noteIcon'></div>");
-                            if ('<%= calendarObject[i].reliever%>' == 'true') {
+                            if ('<%= userInfo[i].reliever%>' == 'true') {
                                 $(this).append(relieverIcon);
                             }
-                            if ('<%= calendarObject[i].tired%>' == 'true') {
+                            if ('<%= userInfo[i].tired%>' == 'true') {
                                 $(this).append(tiredIcon);
                             }
 
-                            if ('<%= calendarObject[i].sleep%>' == 'true') {
+                            if ('<%= userInfo[i].sleep%>' == 'true') {
                                 $(this).append(sleepIcon);
                             }
-                            if ('<%= calendarObject[i].school%>' == 'true') {
+                            if ('<%= userInfo[i].school%>' == 'true') {
                                 $(this).append(schoolIcon);
                             }
-                            if ('<%= calendarObject[i].note%>' == 'true') {
+                            if ('<%= userInfo[i].note%>' == 'true') {
                                 $(this).append("<img  src='/img/notesIcon.png' style=' display: block; margin: auto auto;  height: 30px; width: 30px' />");
                             }
                         }
@@ -120,7 +119,6 @@
 <!-- just creates the nav bar -->
 <div class="page-wrapper">
     <% include partials/page/navbar.ejs %>
-    <p id = "usernameHolder"></p>
     <div class="doctorRow">
         <img id="doctorImage" src="/img/med.png">
         <span>Dr. Jodie Rodriguez - </span>

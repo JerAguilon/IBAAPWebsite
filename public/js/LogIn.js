@@ -4,12 +4,12 @@ $(document).ready(function() {
 
         var user = $("#usernameSubmission").val();
         var pass = $("#passwordSubmission").val();
-        alert(user + pass);
+        //alert(user + pass);
 
         $.post('/login/' + user + '/' + pass, function (res) {
             if (res == 'SUCCESS') {
-                alert("Welcome! Feel free to log in now.")
-                window.location = "/FirstScreen/" + user;
+                alert("Welcome in!");
+                window.location = "/FirstScreen/";
             } else {
                 window.location = "/RegistrationPage";
                 alert("User already exists.");

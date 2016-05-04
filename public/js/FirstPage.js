@@ -1,5 +1,4 @@
 pathname = window.location.pathname;
-user = pathname.split("/")[2];
 
 $(document).ready(function () {
 
@@ -14,16 +13,18 @@ $(document).ready(function () {
 
 
         if (today.find(".schoolIcon").length == 0) {
-            alert(user);
+            $.post("/updatePen" + "/true/" + today.data("date"));
+
             $("#pen").attr('src', '/img/schoolFill.png');
             today.append(schoolIcon);
             //$.post("/updatePen/true/" + today.data("date"));
-            $.post("/updatePen/" + user + "/true/" + today.data("date"));
+            $.post("/updatePen" + "/true/" + today.data("date"));
 
         } else {
+            $.post("/updatePen" + "/false/" + today.data("date"));
+
             $("#pen").attr('src', '/img/schoolUnfill.png');
             today.find(".schoolIcon").remove();
-            $.post("/updatePen/" + user + "/false/" + today.data("date"));
 
         }
     });
@@ -37,14 +38,14 @@ $(document).ready(function () {
         var tiredIcon = $("<div class='tiredIcon'></div>");
         var relieverIcon = $("<div class='relieverIcon'></div>");
         if (today.find(".sleepIcon").length == 0) {
+            $.post("/updateSleep" + "/true/" + today.data("date"));
             $("#sleep").attr('src', '/img/sleepFill.png');
             today.append(sleepIcon);
-            $.post("/updateSleep/" + user + "/true/" + today.data("date"));
 
         } else {
+            $.post("/updateSleep" + "/false/" + today.data("date"));
             $("#sleep").attr('src', '/img/sleepUnfill.png');
             today.find(".sleepIcon").remove();
-            $.post("/updateSleep" + user + "/false/" + today.data("date"));
         }
     });
 
@@ -57,13 +58,13 @@ $(document).ready(function () {
         var tiredIcon = $("<div class='tiredIcon'></div>");
         var relieverIcon = $("<div class='relieverIcon'></div>");
         if (today.find(".tiredIcon").length == 0) {
+            $.post("/updateTired/true/" + today.data("date"));
             $("#tired").attr('src', '/img/limitFill.png');
             today.append(tiredIcon);
-            $.post("/updateTired/" + user + "/true/" + today.data("date"));
         } else {
+            $.post("/updateTired" + "/false/" + today.data("date"));
             $("#tired").attr('src', '/img/limitUnfill.png');
             today.find(".tiredIcon").remove();
-            $.post("/updateTired/" + user + "/false/" + today.data("date"));
         }
     });
 
@@ -76,13 +77,13 @@ $(document).ready(function () {
         var tiredIcon = $("<div class='tiredIcon'></div>");
         var relieverIcon = $("<div class='relieverIcon'></div>");
         if (today.find(".relieverIcon").length == 0) {
+            $.post("/updateReliever" + "/true/" + today.data("date"));
             $("#reliever").attr('src', '/img/releiveFill.png');
             today.append(relieverIcon);
-            $.post("/updateReliever/" + user + "/true/" + today.data("date"));
         } else {
+            $.post("/updateReliever" + "/false/" + today.data("date"));
             $("#reliever").attr('src', '/img/releiveUnfill.png');
             today.find(".relieverIcon").remove();
-            $.post("/updateReliever/" + user + "/false/" + today.data("date"));
         }
 
     });

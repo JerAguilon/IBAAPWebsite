@@ -24,6 +24,7 @@ exports.addRecord = function (input, next) {
 
 exports.findRecord = function (input, next) {
     Record.findOne({
+        username : input.username,
         recordDate: input.recordDate
     }, function (err, object) {
         next(err, object);
@@ -31,6 +32,7 @@ exports.findRecord = function (input, next) {
 };
 
 exports.updateSchoolRecord = function (input, next) {
+    console.log("UPDATING");
     Record.update({
         recordDate: input.recordDate
     }, {
